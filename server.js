@@ -12,9 +12,10 @@ app.use(cors());
 
 // MongoDB connection
 mongoose
-  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected"))
   .catch((err) => console.log("❌ DB Error: ", err));
+
 
 // Note Schema
 const noteSchema = new mongoose.Schema({
@@ -63,4 +64,4 @@ app.delete("/notes/:id", async (req, res) => {
 
 // Start Server
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on :${PORT}`));
