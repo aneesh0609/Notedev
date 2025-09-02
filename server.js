@@ -30,6 +30,13 @@ const noteSchema = new mongoose.Schema({
 
 const Note = mongoose.model("Note", noteSchema);
 
+app.get('/', (req,res) => {
+  res.send({
+    activeStatus : true,
+    error: false
+  })
+})
+
 // 📌 Create Note
 app.post("/notes", async (req, res) => {
   try {
