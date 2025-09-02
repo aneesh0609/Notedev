@@ -8,10 +8,9 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// ✅ Allow only your frontend
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,  // Allowed frontend URL
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     credentials: true,
   })
 );
@@ -30,14 +29,11 @@ const noteSchema = new mongoose.Schema({
 
 const Note = mongoose.model("Note", noteSchema);
 
-app.get('/', (req,res) => {
-  res.send({
-    activeStatus : true,
-    error: false
-  })
-})
+// Routes
+app.get("/", (req, res) => {
+  res.json({ activeStatus: true, error: false });
+});
 
-// 📌 Create Note
 app.post("/notes", async (req, res) => {
   try {
     const note = new Note(req.body);
@@ -48,13 +44,15 @@ app.post("/notes", async (req, res) => {
   }
 });
 
-// 📌 Get All Notes
 app.get("/notes", async (req, res) => {
-  const notes = await Note.find();
-  res.json(notes);
+  try {
+    const notes = await Note.find();
+    res.json(notes);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// 📌 Update Note
 app.put("/notes/:id", async (req, res) => {
   try {
     const updated = await Note.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -64,7 +62,6 @@ app.put("/notes/:id", async (req, res) => {
   }
 });
 
-// 📌 Delete Note
 app.delete("/notes/:id", async (req, res) => {
   try {
     await Note.findByIdAndDelete(req.params.id);
@@ -74,8 +71,6 @@ app.delete("/notes/:id", async (req, res) => {
   }
 });
 
-// Start Server
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`🚀 Server running on :${PORT}`));
-
+// ❌ Remove app.listen()
+// ✅ Export app instead
 export default app;
