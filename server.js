@@ -1,4 +1,3 @@
-// server.js
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -8,14 +7,20 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+
+// ✅ Allow only your frontend
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,  // Allowed frontend URL
+    credentials: true,
+  })
+);
 
 // MongoDB connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected"))
   .catch((err) => console.log("❌ DB Error: ", err));
-
 
 // Note Schema
 const noteSchema = new mongoose.Schema({
