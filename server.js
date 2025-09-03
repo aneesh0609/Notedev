@@ -71,6 +71,3 @@ app.delete("/notes/:id", async (req, res) => {
   }
 });
 
-// ❌ Remove app.listen()
-// ✅ Export app instead
-export default app;
