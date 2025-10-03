@@ -65,7 +65,7 @@ app.put("/notes/:id", async (req, res) => {
 app.delete("/notes/:id", async (req, res) => {
   try {
     await Note.findByIdAndDelete(req.params.id);
-    res.json({ message: "Note deleted successfully" });
+    res.json({ message: "Note deleted successfully 2" });
   } catch (err) {
     res.json({ error: err.message });
   }
