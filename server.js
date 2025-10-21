@@ -18,7 +18,7 @@ app.use(
 // MongoDB connection
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("Mongo Connectedd"))
+  .then(() => console.log("Mongodb database connected "))
   .catch((err) => console.log("❌ DB Error: ", err));
 
 // Note Schema
